@@ -1,0 +1,78 @@
+.App-logo {
+    height: 40vmin;
+    pointer-events: none;
+}
+
+/* Devotional Background Effect */
+.App {
+    position: relative;
+    min-height: 100vh;
+    color: white;
+}
+
+.App > *:not(.fixed) {
+    position: relative;
+    z-index: 30;
+}
+
+.App::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+        radial-gradient(ellipse at top, rgba(255, 140, 0, 0.15) 0%, transparent 60%),
+        radial-gradient(ellipse at bottom right, rgba(255, 69, 0, 0.1) 0%, transparent 50%),
+        radial-gradient(ellipse at bottom left, rgba(218, 165, 32, 0.08) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Subtle floating animation for ambient effect */
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+@keyframes gradient-shift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.devotional-glow {
+    animation: float 6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .App-logo {
+        animation: App-logo-spin infinite 20s linear;
+    }
+}
+
+.App-header {
+    background-color: #0f0f10;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+}
+
+.App-link {
+    color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}

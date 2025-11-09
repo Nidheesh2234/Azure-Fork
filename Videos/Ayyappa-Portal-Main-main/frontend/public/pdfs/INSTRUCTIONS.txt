@@ -1,0 +1,21 @@
+PDF Books Setup Instructions
+==============================
+
+Please place the following PDF files in this folder (frontend/public/pdfs/):
+
+1. పూజా విధానం.pdf
+2. విఘ్నేశ్వర పూజ.pdf
+3. విఘ్నేశ్వర అష్టోత్తర శత నామం.pdf
+4. శ్రీ మహా లక్ష్మీ పూజ.pdf
+5. శ్రీ లక్ష్మీ అష్టోత్తర శత నామం.pdf
+
+These files should be placed with their exact Telugu names as shown above.
+
+The application is already configured to load these books in the correct order:
+- పూజా విధానం.pdf (First)
+- విఘ్నేశ్వర పూజ.pdf (Second)
+- విఘ్నేశ్వర అష్టోత్తర శత నామం.pdf (Third)
+- శ్రీ మహా లక్ష్మీ పూజ.pdf (Fourth)
+- శ్రీ లక్ష్మీ అష్టోత్తర శత నామం.pdf (Fifth)
+
+Once you place the PDFs here, they will automatically appear in the Puja Guide section of the application.
