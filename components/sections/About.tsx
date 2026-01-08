@@ -1,9 +1,11 @@
 'use client';
 
+import { useState } from 'react';
 import { Section } from '@/components/ui/Section';
 import Image from 'next/image';
-import { ShieldCheck, Anchor, Heart, Leaf } from 'lucide-react';
+import { ShieldCheck, Anchor, Heart, Leaf, ChevronDown, ChevronUp } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const TRUST_BADGES = [
     { icon: Anchor, title: "Daily Catch", desc: "Sourced every morning directly from Visakhapatnam Fishing Harbour." },
@@ -12,7 +14,22 @@ const TRUST_BADGES = [
     { icon: Leaf, title: "Eco-Conscious", desc: "Sustainable sourcing and zero-plastic packaging policy." },
 ];
 
+const FULL_STORY = {
+    title: "The AzureFork Story",
+    paragraphs: [
+        "It all began with a simple dream — and a worn-out family recipe book. In the heart of Visakhapatnam, the Rao family had been preparing seafood for generations, their recipes whispered from grandmother to grandchild, perfected over decades of Sunday lunches and festive celebrations.",
+        "When young Vikram Rao returned home after years abroad, he carried with him not just memories, but a vision: to share his grandmother's legendary prawn masala, his mother's delicate fish curries, and his father's secret spice blends with the world — but with a modern twist.",
+        "In 2024, AzureFork Kitchens was born. The name 'Azure' pays homage to the beautiful Bay of Bengal that provides our daily catch, while 'Fork' represents the bridge between traditional coastal cooking and contemporary culinary excellence.",
+        "Every morning at 4 AM, our team is at the Visakhapatnam Fishing Harbour, hand-selecting the freshest catches from trusted fishermen we've known for years. By the time you sit down for lunch, the fish on your plate was swimming in the Bay just hours ago.",
+        "Our kitchen is an open book — quite literally. Walk through our restaurant, and you'll see our chefs at work, precisely measuring the same spice ratios that great-grandmother Lakshmi would have used in 1952. No shortcuts, no MSG, no artificial preservatives.",
+        "What makes us different? We believe that great food tells a story. Each dish at AzureFork carries the salt of the sea, the warmth of Andhra hospitality, and three generations of culinary wisdom. When you dine with us, you're not just eating — you're becoming part of our family's journey.",
+        "Today, we're proud to serve hundreds of families daily, cater to grand weddings and intimate gatherings, and introduce the bold flavors of coastal Andhra to food lovers across the city. But our mission remains unchanged: treat every guest like family, and never compromise on freshness or flavor.",
+    ],
+};
+
 export function About() {
+    const [isExpanded, setIsExpanded] = useState(false);
+
     return (
         <Section id="about" className="bg-sand/20 dark:bg-navy-800/20 py-24">
             <div className="container mx-auto flex flex-col lg:flex-row items-center gap-16 md:gap-24">
@@ -67,12 +84,46 @@ export function About() {
                     </div>
 
                     <div className="pt-4">
-                        <Button variant="link" className="text-azure-600 dark:text-azure-400 p-0 text-lg decoration-2 underline-offset-4">
-                            Read Our Full Story &rarr;
+                        <Button
+                            variant="link"
+                            className="text-azure-600 dark:text-azure-400 p-0 text-lg decoration-2 underline-offset-4 flex items-center gap-2"
+                            onClick={() => setIsExpanded(!isExpanded)}
+                        >
+                            {isExpanded ? 'Show Less' : 'Read Our Full Story'}
+                            {isExpanded ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
                         </Button>
                     </div>
+
+                    {/* Expandable Full Story Section */}
+                    <AnimatePresence>
+                        {isExpanded && (
+                            <motion.div
+                                initial={{ opacity: 0, height: 0 }}
+                                animate={{ opacity: 1, height: 'auto' }}
+                                exit={{ opacity: 0, height: 0 }}
+                                transition={{ duration: 0.4, ease: 'easeInOut' }}
+                                className="overflow-hidden"
+                            >
+                                <div className="bg-white dark:bg-navy-800/50 rounded-2xl p-8 shadow-lg border border-border space-y-6">
+                                    <h3 className="text-2xl font-serif font-bold text-foreground">{FULL_STORY.title}</h3>
+                                    {FULL_STORY.paragraphs.map((para, i) => (
+                                        <p key={i} className="text-muted-foreground leading-relaxed">
+                                            {para}
+                                        </p>
+                                    ))}
+                                    <div className="pt-4 border-t border-border">
+                                        <p className="text-azure-600 dark:text-azure-400 font-semibold italic">
+                                            "From our family to yours — welcome to AzureFork."
+                                        </p>
+                                        <p className="text-sm text-muted-foreground mt-2">— The Rao Family</p>
+                                    </div>
+                                </div>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
                 </div>
             </div>
         </Section>
     )
 }
+

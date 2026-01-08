@@ -7,6 +7,7 @@ import { Tabs } from '@/components/ui/Tabs';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import { MENU_CATEGORIES, MENU_ITEMS } from '@/lib/menu-data';
+import { generateMenuPDF } from '@/lib/generate-menu-pdf';
 import Image from 'next/image';
 
 export function MenuHighlights() {
@@ -78,7 +79,12 @@ export function MenuHighlights() {
                 </div>
 
                 <div className="text-center mt-16">
-                    <Button variant="outline" size="lg" className="rounded-full px-8 border-azure-200 hover:bg-azure-50 text-azure-700 dark:border-azure-800 dark:hover:bg-azure-900/30 dark:text-azure-300">
+                    <Button
+                        variant="outline"
+                        size="lg"
+                        className="rounded-full px-8 border-azure-200 hover:bg-azure-50 text-azure-700 dark:border-azure-800 dark:hover:bg-azure-900/30 dark:text-azure-300"
+                        onClick={generateMenuPDF}
+                    >
                         Download Full Menu (PDF)
                     </Button>
                 </div>

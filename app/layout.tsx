@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { ReservationProvider } from "@/components/ReservationContext";
+import { QuoteProvider } from "@/components/QuoteContext";
 import { Toaster } from "sonner";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
@@ -59,10 +60,12 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <ReservationProvider>
-            {children}
-            <Toaster position="top-center" richColors />
-          </ReservationProvider>
+          <QuoteProvider>
+            <ReservationProvider>
+              {children}
+              <Toaster position="top-center" richColors />
+            </ReservationProvider>
+          </QuoteProvider>
         </ThemeProvider>
       </body>
     </html>

@@ -39,24 +39,31 @@ export function Hero() {
                 <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 z-10 mix-blend-soft-light filter contrast-150" />
             </motion.div>
 
-            {/* Layer 2: Floating Particles (Simulating sea motes) */}
+            {/* Layer 2: Floating Particles (Simulating sea motes) - Static positions to avoid hydration mismatch */}
             <div className="absolute inset-0 z-1 pointer-events-none">
-                {[...Array(6)].map((_, i) => (
+                {[
+                    { width: 5, height: 4, top: 15, left: 20, duration: 5 },
+                    { width: 3, height: 6, top: 45, left: 75, duration: 6 },
+                    { width: 7, height: 3, top: 70, left: 35, duration: 4.5 },
+                    { width: 4, height: 5, top: 25, left: 85, duration: 5.5 },
+                    { width: 6, height: 4, top: 80, left: 10, duration: 6.5 },
+                    { width: 3, height: 7, top: 55, left: 55, duration: 4 },
+                ].map((particle, i) => (
                     <motion.div
                         key={i}
                         className="absolute bg-white/10 rounded-full blur-[1px]"
                         style={{
-                            width: Math.random() * 6 + 2 + "px",
-                            height: Math.random() * 6 + 2 + "px",
-                            top: Math.random() * 100 + "%",
-                            left: Math.random() * 100 + "%",
+                            width: particle.width + "px",
+                            height: particle.height + "px",
+                            top: particle.top + "%",
+                            left: particle.left + "%",
                         }}
                         animate={{
                             y: [0, -40, 0],
                             opacity: [0.2, 0.5, 0.2]
                         }}
                         transition={{
-                            duration: Math.random() * 3 + 4,
+                            duration: particle.duration,
                             repeat: Infinity,
                             ease: "easeInOut"
                         }}
@@ -106,7 +113,7 @@ export function Hero() {
                         className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-4"
                     >
                         <Button size="lg" variant="azure" className="text-lg px-8 h-12 shadow-[0_0_30px_-10px_rgba(14,165,233,0.5)]" onClick={openReservation}>Book a Table</Button>
-                        <Button size="lg" variant="outline" className="text-white border-white/20 hover:bg-white/5 hover:text-white text-lg px-8 h-12" onClick={scrollToMenu}>View Full Menu</Button>
+                        <Button size="lg" variant="outline" className="bg-white/90 text-navy-900 border-white/80 hover:bg-white hover:text-navy-900 text-lg px-8 h-12" onClick={scrollToMenu}>View Full Menu</Button>
                     </motion.div>
                 </div>
 

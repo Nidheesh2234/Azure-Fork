@@ -3,6 +3,7 @@
 import { Section } from '@/components/ui/Section';
 import { Button } from '@/components/ui/Button';
 import Image from 'next/image';
+import Link from 'next/link';
 import { CheckCircle2 } from 'lucide-react';
 
 const CATERING_FEATURES = [
@@ -46,8 +47,10 @@ export function Catering() {
                     </ul>
 
                     <div className="flex flex-col sm:flex-row gap-4 pt-6">
-                        <Button variant="azure" size="lg" className="text-lg px-8">Request a Quote</Button>
-                        <Button variant="outline" size="lg" className="border-white/20 text-white hover:bg-white/10 text-lg px-8">WhatsApp Now</Button>
+                        <Link href="/quote">
+                            <Button variant="azure" size="lg" className="text-lg px-8">Request a Quote</Button>
+                        </Link>
+                        <Button variant="outline" size="lg" className="bg-white/90 text-navy-900 border-white/80 hover:bg-white text-lg px-8">WhatsApp Now</Button>
                     </div>
                 </div>
 
@@ -58,7 +61,7 @@ export function Catering() {
                                 <Image src="https://images.unsplash.com/photo-1555244162-803834f70033?w=800&q=80" alt="Catering Setup" fill className="object-cover" />
                             </div>
                             <div className="relative aspect-square rounded-2xl overflow-hidden shadow-lg transform hover:-translate-y-2 transition-transform">
-                                <Image src="https://images.unsplash.com/photo-1530610476181-d8ceb28bc572?w=800&q=80" alt="Buffet Spread" fill className="object-cover" />
+                                <Image src="https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=800&q=80" alt="Buffet Spread" fill className="object-cover" />
                             </div>
                         </div>
                         <div className="space-y-4">
