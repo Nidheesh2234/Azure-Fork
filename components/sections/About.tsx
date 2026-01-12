@@ -31,66 +31,98 @@ export function About() {
     const [isExpanded, setIsExpanded] = useState(false);
 
     return (
-        <Section id="about" className="bg-sand/20 dark:bg-navy-800/20 py-24">
-            <div className="container mx-auto flex flex-col lg:flex-row items-center gap-16 md:gap-24">
-                <div className="lg:w-1/2 relative order-2 lg:order-1">
-                    <div className="relative aspect-[4/5] w-[80%] ml-auto rotate-3 rounded-2xl overflow-hidden shadow-2xl">
+        <Section id="about" className="relative py-32 overflow-hidden bg-background">
+
+            {/* Organic Background Blobs */}
+            <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
+                <div className="absolute top-[10%] -left-[10%] w-[50vw] h-[50vh] bg-sand/40 dark:bg-azure-900/10 rounded-[100%] blur-[80px]" />
+                <div className="absolute bottom-[10%] -right-[10%] w-[40vw] h-[60vh] bg-azure-100/40 dark:bg-navy-800/20 rounded-[100%] blur-[100px]" />
+            </div>
+
+            <div className="container mx-auto flex flex-col lg:flex-row items-center gap-20 relative z-10">
+
+                {/* Image Composition */}
+                <div className="lg:w-1/2 relative order-2 lg:order-1 perspective-1000">
+                    <motion.div
+                        whileHover={{ rotateY: 5, scale: 1.02 }}
+                        transition={{ duration: 0.5 }}
+                        className="relative aspect-[4/5] w-[80%] mx-auto lg:ml-auto lg:mr-10 rotate-2 rounded-[2rem] overflow-hidden shadow-2xl shadow-navy-900/10 border-[10px] border-white dark:border-navy-800"
+                    >
                         <Image
                             src="https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?q=80&w=1000&auto=format&fit=crop"
                             alt="Our Kitchen"
                             fill
                             className="object-cover"
                         />
-                        <div className="absolute inset-0 bg-navy-900/10" />
-                    </div>
-                    {/* Overlapping Image */}
-                    <div className="absolute bottom-10 -left-6 md:left-0 w-[60%] aspect-square -rotate-6 rounded-2xl overflow-hidden shadow-xl border-8 border-white dark:border-navy-900">
+                    </motion.div>
+
+                    {/* Floating Secondary Image */}
+                    <motion.div
+                        initial={{ y: 20 }}
+                        animate={{ y: -20 }}
+                        transition={{ duration: 4, repeat: Infinity, repeatType: 'mirror', ease: 'easeInOut' }}
+                        className="absolute bottom-20 left-0 md:left-10 w-[55%] aspect-square -rotate-6 rounded-[2rem] overflow-hidden shadow-xl border-8 border-white dark:border-navy-900 z-20"
+                    >
                         <Image
                             src="https://images.unsplash.com/photo-1583394293214-28ded15ee548?q=80&w=1000&auto=format&fit=crop"
                             alt="Chef Preparing Spice Blend"
                             fill
                             className="object-cover"
                         />
+                    </motion.div>
+
+                    {/* Decorative Element */}
+                    <div className="absolute top-10 right-0 lg:-right-6 text-9xl leading-none font-serif text-azure-900/5 select-none z-0">
+                        Since <br /> 2024
                     </div>
                 </div>
 
-                <div className="lg:w-1/2 space-y-8 order-1 lg:order-2">
+                {/* Content */}
+                <div className="lg:w-1/2 space-y-10 order-1 lg:order-2">
                     <div>
-                        <span className="text-azure-600 dark:text-azure-400 font-bold uppercase tracking-widest text-sm">Our Story</span>
-                        <h2 className="text-4xl md:text-5xl font-serif font-bold mt-2 leading-tight">
-                            Authentic Flavours, <br />Honest Ingredients.
+                        <motion.div
+                            initial={{ width: 0 }}
+                            whileInView={{ width: '4rem' }}
+                            className="h-1 bg-coral mb-6"
+                        />
+                        <span className="text-azure-600 dark:text-azure-400 font-bold uppercase tracking-widest text-sm">Our Ethos</span>
+                        <h2 className="text-5xl md:text-6xl font-serif font-medium mt-4 leading-[1.1]">
+                            Authentic Flavours, <br />
+                            <span className="italic text-muted-foreground">Honest Ingredients.</span>
                         </h2>
                     </div>
 
-                    <p className="text-lg text-muted-foreground leading-relaxed">
-                        At AzureFork Kitchens, we assume that great food begins with great ingredients. Nestled in the heart of Vizag, we bring you the freshest treasures of the Bay of Bengal, paired with the fiery, aromatic spices of the Andhra heartland.
-                    </p>
-                    <p className="text-lg text-muted-foreground leading-relaxed">
-                        Founded by the Rao family, our kitchen operates on a simple philosophy: treat every guest like family. No shortcuts, no preservatives—just honest, soulful cooking.
-                    </p>
+                    <div className="space-y-6 text-lg text-muted-foreground font-light leading-relaxed">
+                        <p>
+                            At <span className="font-semibold text-foreground">AzureFork Kitchens</span>, we assume that great food begins with great ingredients. Nestled in the heart of Vizag, we bring you the freshest treasures of the Bay of Bengal, paired with the fiery, aromatic spices of the Andhra heartland.
+                        </p>
+                        <p>
+                            Founded by the Rao family, our kitchen operates on a simple philosophy: treat every guest like family. No shortcuts, no preservatives—just honest, soulful cooking.
+                        </p>
+                    </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-10 pt-4">
                         {TRUST_BADGES.map((badge, i) => (
-                            <div key={i} className="flex gap-4 items-start">
-                                <div className="bg-white dark:bg-white/5 p-3 rounded-xl shadow-sm border border-border">
+                            <div key={i} className="flex gap-4 items-start group">
+                                <div className="bg-azure-50/50 dark:bg-white/5 p-4 rounded-full group-hover:bg-azure-100 dark:group-hover:bg-white/10 transition-colors">
                                     <badge.icon className="w-6 h-6 text-azure-600 dark:text-azure-400" />
                                 </div>
                                 <div>
-                                    <h4 className="font-bold text-foreground">{badge.title}</h4>
-                                    <p className="text-sm text-muted-foreground mt-1">{badge.desc}</p>
+                                    <h4 className="font-bold text-foreground text-lg">{badge.title}</h4>
+                                    <p className="text-sm text-muted-foreground mt-1 leading-snug">{badge.desc}</p>
                                 </div>
                             </div>
                         ))}
                     </div>
 
-                    <div className="pt-4">
+                    <div className="pt-6">
                         <Button
-                            variant="link"
-                            className="text-azure-600 dark:text-azure-400 p-0 text-lg decoration-2 underline-offset-4 flex items-center gap-2"
+                            variant="outline"
+                            className="rounded-full px-8 py-6 border-azure-200 text-azure-800 hover:bg-azure-50 dark:border-azure-800 dark:text-azure-200"
                             onClick={() => setIsExpanded(!isExpanded)}
                         >
                             {isExpanded ? 'Show Less' : 'Read Our Full Story'}
-                            {isExpanded ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
+                            {isExpanded ? <ChevronUp className="w-4 h-4 ml-2" /> : <ChevronDown className="w-4 h-4 ml-2" />}
                         </Button>
                     </div>
 
@@ -101,21 +133,25 @@ export function About() {
                                 initial={{ opacity: 0, height: 0 }}
                                 animate={{ opacity: 1, height: 'auto' }}
                                 exit={{ opacity: 0, height: 0 }}
-                                transition={{ duration: 0.4, ease: 'easeInOut' }}
+                                transition={{ duration: 0.5, ease: [0.32, 0.72, 0, 1] }}
                                 className="overflow-hidden"
                             >
-                                <div className="bg-white dark:bg-navy-800/50 rounded-2xl p-8 shadow-lg border border-border space-y-6">
-                                    <h3 className="text-2xl font-serif font-bold text-foreground">{FULL_STORY.title}</h3>
-                                    {FULL_STORY.paragraphs.map((para, i) => (
-                                        <p key={i} className="text-muted-foreground leading-relaxed">
-                                            {para}
-                                        </p>
-                                    ))}
-                                    <div className="pt-4 border-t border-border">
-                                        <p className="text-azure-600 dark:text-azure-400 font-semibold italic">
+                                <div className="mt-8 bg-white/50 dark:bg-navy-900/50 backdrop-blur-sm rounded-3xl p-8 md:p-10 border border-white/20 shadow-xl space-y-6 relative overflow-hidden">
+                                    <div className="absolute top-0 right-0 p-32 bg-azure-500/5 rounded-full blur-3xl pointer-events-none" />
+
+                                    <h3 className="text-3xl font-serif font-bold text-foreground relative z-10">{FULL_STORY.title}</h3>
+                                    <div className="space-y-4 relative z-10">
+                                        {FULL_STORY.paragraphs.map((para, i) => (
+                                            <p key={i} className="text-muted-foreground leading-relaxed">
+                                                {para}
+                                            </p>
+                                        ))}
+                                    </div>
+                                    <div className="pt-8 border-t border-dashed border-border relative z-10">
+                                        <p className="text-azure-600 dark:text-azure-400 font-serif text-xl italic">
                                             "From our family to yours — welcome to AzureFork."
                                         </p>
-                                        <p className="text-sm text-muted-foreground mt-2">— The Rao Family</p>
+                                        <p className="text-sm text-foreground/60 mt-2 tracking-widest uppercase">— The Rao Family</p>
                                     </div>
                                 </div>
                             </motion.div>
@@ -126,4 +162,3 @@ export function About() {
         </Section>
     )
 }
-

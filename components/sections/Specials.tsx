@@ -1,61 +1,170 @@
 'use client';
 
+import { useState, useRef, useEffect } from 'react';
 import { CHEF_SPECIALS } from '@/lib/menu-data';
 import { Section } from '@/components/ui/Section';
 import Image from 'next/image';
 import { Badge } from '@/components/ui/Badge';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
+import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
+import { Button } from '@/components/ui/Button';
 
 export function Specials() {
-    return (
-        <Section id="specials" className="bg-navy-900 text-white relative py-24">
-            {/* Background texture */}
-            <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-azure-900 to-transparent" />
+    const [activeIndex, setActiveIndex] = useState(0);
+    const containerRef = useRef<HTMLDivElement>(null);
 
-            <div className="relative z-10 container mx-auto">
-                <div className="text-center mb-16">
-                    <Badge variant="azure" className="mb-4 px-4 py-1 text-sm bg-azure-500/20 hover:bg-azure-500/30 border border-azure-500/50">Chef's Selection</Badge>
-                    <h2 className="text-4xl md:text-6xl font-serif font-bold bg-clip-text text-transparent bg-gradient-to-b from-white to-white/70">
-                        Signature Creations
-                    </h2>
+    const nextSlide = () => {
+        setActiveIndex((prev) => (prev + 1) % CHEF_SPECIALS.length);
+    };
+
+    const prevSlide = () => {
+        setActiveIndex((prev) => (prev - 1 + CHEF_SPECIALS.length) % CHEF_SPECIALS.length);
+    };
+
+    const activeSpecial = CHEF_SPECIALS[activeIndex];
+
+    return (
+        <Section id="specials" className="bg-navy-950 text-white relative min-h-screen flex items-center overflow-hidden py-24">
+
+            {/* Dynamic Background */}
+            <AnimatePresence mode="wait">
+                <motion.div
+                    key={activeIndex}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 0.2 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 1 }}
+                    className="absolute inset-0 z-0"
+                >
+                    <Image
+                        src={activeSpecial.image}
+                        alt="Background blur"
+                        fill
+                        className="object-cover blur-[100px] scale-125"
+                    />
+                    <div className="absolute inset-0 bg-navy-950/80 mix-blend-multiply" />
+                </motion.div>
+            </AnimatePresence>
+
+            <div ref={containerRef} className="container mx-auto px-4 relative z-10 h-full flex flex-col justify-center">
+
+                {/* Header */}
+                <div className="mb-12 flex items-end justify-between border-b border-white/10 pb-8">
+                    <div>
+                        <motion.span
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            className="text-azure-400 font-serif italic text-xl block mb-2"
+                        >
+                            Curated Excellence
+                        </motion.span>
+                        <motion.h2
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.1 }}
+                            className="text-5xl md:text-7xl font-sans font-bold text-white tracking-tight"
+                        >
+                            Chef's Spotlight
+                        </motion.h2>
+                    </div>
+
+                    {/* Navigation Controls */}
+                    <div className="flex gap-4">
+                        <Button
+                            variant="outline"
+                            size="icon"
+                            onClick={prevSlide}
+                            className="rounded-full border-white/20 hover:bg-white/10 text-white w-14 h-14"
+                        >
+                            <ChevronLeft className="w-6 h-6" />
+                        </Button>
+                        <Button
+                            variant="outline"
+                            size="icon"
+                            onClick={nextSlide}
+                            className="rounded-full border-white/20 hover:bg-white/10 text-white w-14 h-14"
+                        >
+                            <ChevronRight className="w-6 h-6" />
+                        </Button>
+                    </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {CHEF_SPECIALS.map((special, index) => (
-                        <motion.div
-                            key={special.id}
-                            initial={{ opacity: 0, y: 50 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true, margin: "-50px" }}
-                            transition={{ delay: index * 0.1, duration: 0.6 }}
-                            className="group relative h-[450px] rounded-2xl overflow-hidden cursor-pointer shadow-xl shadow-black/40"
-                        >
-                            <Image
-                                src={special.image}
-                                alt={special.title}
-                                fill
-                                className="object-cover transition-transform duration-700 group-hover:scale-110"
-                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-900/40 to-transparent opacity-90 group-hover:opacity-80 transition-opacity duration-500" />
+                {/* Spotlight Content */}
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
 
-                            <div className="absolute top-4 right-4 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-2 group-hover:translate-y-0">
-                                <Badge variant="outline" className="bg-black/50 border-white/20 text-white backdrop-blur-md">Featured</Badge>
-                            </div>
+                    {/* Image Spotlight */}
+                    <div className="lg:col-span-7 relative order-2 lg:order-1 h-[50vh] min-h-[400px]">
+                        <AnimatePresence mode="popLayout">
+                            <motion.div
+                                key={activeSpecial.id}
+                                initial={{ opacity: 0, x: -50, scale: 0.9 }}
+                                animate={{ opacity: 1, x: 0, scale: 1 }}
+                                exit={{ opacity: 0, x: 100, scale: 1.1 }}
+                                transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                                className="relative w-full h-full rounded-[3rem] overflow-hidden shadow-2xl shadow-black/50"
+                            >
+                                <Image
+                                    src={activeSpecial.image}
+                                    alt={activeSpecial.title}
+                                    fill
+                                    className="object-cover"
+                                    priority
+                                />
+                                {/* Overlay Gradient */}
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
 
-                            <div className="absolute bottom-0 left-0 p-8 w-full transform transition-transform duration-500 translate-y-4 group-hover:translate-y-0">
-                                <p className="text-azure-400 font-medium mb-2 font-serif italic text-lg">{special.subtitle}</p>
-                                <h3 className="text-3xl font-bold mb-3 leading-none">{special.title}</h3>
-                                <div className="h-0 group-hover:h-auto overflow-hidden transition-all duration-500 ease-in-out opacity-0 group-hover:opacity-100">
-                                    <p className="text-gray-300 text-sm leading-relaxed pb-2">
-                                        {special.description}
+                                <div className="absolute bottom-8 left-8">
+                                    <Badge className="bg-white/10 backdrop-blur-md border-white/20 text-white mb-2">
+                                        Signature Dish
+                                    </Badge>
+                                </div>
+                            </motion.div>
+                        </AnimatePresence>
+                    </div>
+
+                    {/* Text Details */}
+                    <div className="lg:col-span-5 order-1 lg:order-2 space-y-8">
+                        <AnimatePresence mode="wait">
+                            <motion.div
+                                key={activeSpecial.id}
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -20 }}
+                                transition={{ duration: 0.4 }}
+                            >
+                                <h3 className="text-4xl md:text-6xl font-serif font-bold text-transparent bg-clip-text bg-gradient-to-r from-sand via-white to-sand leading-[1.1] mb-2">
+                                    {activeSpecial.title}
+                                </h3>
+                                <p className="text-xl text-azure-300 font-medium mb-6">{activeSpecial.subtitle}</p>
+
+                                <div className="bg-white/5 backdrop-blur-sm p-8 rounded-3xl border border-white/10 mb-8">
+                                    <p className="text-gray-300 text-lg leading-relaxed font-light">
+                                        {activeSpecial.description}
                                     </p>
                                 </div>
-                            </div>
-                        </motion.div>
-                    ))}
+
+                                <Button className="group bg-coral hover:bg-coral/90 text-white rounded-full px-8 py-6 text-lg shadow-lg shadow-coral/20 transition-all hover:scale-105">
+                                    <span>Tasting Notes</span>
+                                    <ArrowRight className="w-5 h-5 ml-2 transition-transform group-hover:translate-x-1" />
+                                </Button>
+                            </motion.div>
+                        </AnimatePresence>
+
+                        {/* Progress Indicator */}
+                        <div className="flex gap-2 pt-8">
+                            {CHEF_SPECIALS.map((_, idx) => (
+                                <button
+                                    key={idx}
+                                    onClick={() => setActiveIndex(idx)}
+                                    className={`h-1 rounded-full transition-all duration-300 ${idx === activeIndex ? 'w-12 bg-coral' : 'w-4 bg-white/20 hover:bg-white/40'
+                                        }`}
+                                />
+                            ))}
+                        </div>
+                    </div>
                 </div>
+
             </div>
         </Section>
-    )
+    );
 }

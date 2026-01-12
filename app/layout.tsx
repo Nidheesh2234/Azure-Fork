@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Playfair_Display } from "next/font/google";
+import { Outfit, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 
@@ -7,9 +7,14 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 import { ReservationProvider } from "@/components/ReservationContext";
 import { QuoteProvider } from "@/components/QuoteContext";
 import { Toaster } from "sonner";
+import { CustomCursor } from "@/components/ui/CustomCursor";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
-const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-playfair" });
+const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit" });
+const cormorant = Cormorant_Garamond({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-cormorant"
+});
 
 export const metadata: Metadata = {
   title: "AzureFork Kitchens | Coastal Cuisine & Andhra Flavors",
@@ -50,10 +55,12 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <body className={cn(
-        inter.variable,
-        playfair.variable,
+        outfit.variable,
+        cormorant.variable,
         "antialiased bg-background text-foreground font-sans overflow-x-hidden selection:bg-azure-200 selection:text-navy-900"
       )}>
+        <div className="bg-noise" />
+        <CustomCursor />
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
